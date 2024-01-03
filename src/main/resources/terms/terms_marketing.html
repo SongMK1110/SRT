@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, target-densitydpi=medium-dpi">
+    <title>마케팅 정보 수신 동의</title>
+    <link rel="stylesheet" href="terms.css">
+    <style>
+        * { 
+            margin: 0; 
+            padding: 0; 
+        }
+    </style>
+    <script>
+        function onClick() {
+            Native.dismiss()
+        }
+    </script>
+
+</head>
+<body>
+    <div class="bigTit">마케팅 정보 수신 동의(선택)</div>
+    <div class="title">항목</div>
+    <div class="desc"><strong>이름, 전화번호, 기차예약정보</strong></div>
+
+    <div class="title">수집·이용 목적</div>
+    <div class="desc"><strong>서비스 안내 및 이용 권유를 위한 수집, 이용</strong></div>
+    
+    <div class="title">보유·이용기간</div>
+    <div class="desc"><strong>별도 동의 철회 시까지</strong></div>
+    
+    
+    <div class="title">위 마케팅 정보 수신 동의를 거부할 권리가 있습니다.</div>
+    
+    <div class="footer">
+        <button class="btn" onclick="onClick()">확인</button>
+    </div>
+</body>
+</html>

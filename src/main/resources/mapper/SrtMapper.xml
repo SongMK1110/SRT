@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.srt.mapper.SrtMapper">
+
+	<insert id="insertDevice" parameterType="DeviceDTO">
+		INSERT INTO device (device_id,
+							version)
+					VALUES (#{deviceId},
+							#{version})
+		on duplicate key update version = #{version}
+	</insert>
+	
+	<select id="selectDevice" resultType="DeviceDTO">
+		SELECT 	COUNT(*) as cnt,
+			    device_id,
+				version
+		FROM	device
+		WHERE	device_id = #{deviceId}
+	</select>
+
+	<select id="selectSrtInfo" resultType="RecentReservationDTO">
+		SELECT  DISTINCT
+				dep_place_id,
+				dep_place_name,
+				arr_place_id,
+				arr_place_name
+		FROM 	srt
+		WHERE 	email = #{email}
+		ORDER BY srt_id DESC
+		LIMIT 5
+	</select>
+
+	<select id="selectBanner" resultType="BannerDTO">
+		SELECT  img_url,
+				link_url
+		FROM 	banner
+	</select>
+
+	<select id="selectNotice" resultType="NoticeDTO">
+		SELECT  title,
+				link_url
+		FROM 	notice
+	</select>
+
+	<select id="reserveCheck" resultType="int">
+		SELECT 	COUNT(*)
+		FROM 	srt
+		WHERE   email = #{email}
+		AND 	train_no = #{trainNo}
+		AND 	dep_pland_time = DATE_FORMAT(#{depPlandTime}, '%Y%m%d%H%i%s')
+	</select>
+
+	<insert id="insertReserve" parameterType="SrtDTO" useGeneratedKeys="true" keyProperty="srtId">
+		INSERT INTO srt ( boarding_date,
+						  ticket_cnt,
+						  train_no,
+						  dep_place_id,
+						  dep_place_name,
+						  dep_pland_time,
+						  arr_place_id,
+						  arr_place_name,
+					      arr_pland_time,
+						  reservation_date,
+						  email,
+						  price
+						 )
+				 VALUES ( STR_TO_DATE(#{boardingDate}, '%Y%m%d'),
+						  #{ticketCnt},
+						  #{trainNo},
+						  #{depPlaceId},
+						  #{depPlaceName},
+						  STR_TO_DATE(#{depPlandTime}, '%H%i'),
+						  #{arrPlaceId},
+						  #{arrPlaceName},
+						  STR_TO_DATE(#{arrPlandTime}, '%H%i'),
+						  now(),
+						  #{email},
+						  #{price}
+						 )
+
+	</insert>
+
+	<insert id="insertReserveDetail" parameterType="SrtDetailDTO">
+		INSERT INTO srt_detail ( ticket_no,
+								 hocha,
+								 seat_number,
+								 srt_id
+								)
+						VALUES ( #{ticketNo},
+		  						 #{hocha},
+					 			 #{seatNumber},
+								 #{srtId}
+								)
+	</insert>
+
+	<select id="selectSrt" resultType="SrtDTO">
+		SELECT 	DATE_FORMAT(boarding_date, '%Y-%m-%d') as boardingDate,
+				ticket_cnt,
+				train_no,
+				dep_place_id,
+				dep_place_name,
+				DATE_FORMAT(dep_pland_time, '%H:%i') as depPlandTime,
+				arr_place_id,
+				arr_place_name,
+				DATE_FORMAT(arr_pland_time, '%H:%i') as arrPlandTime,
+				DATE_FORMAT(reservation_date, '%Y-%m-%d %H:%i:%s') as reservationDate,
+				ticketing_status,
+				email,
+				price,
+				srt_id
+		FROM 	srt
+		WHERE 	email = #{email}
+	</select>
+
+	<select id="selectSrtDetailList" resultType="com.example.srt.dto.srtdetail.response.ResponseSrtDetailDTO">
+		SELECT 	ticket_no,
+				hocha,
+				seat_number
+		FROM 	srt_detail
+		WHERE 	srt_id = #{srtId}
+	</select>
+
+	<update id="updateTicketStatus" parameterType="int">
+		UPDATE 	srt
+		SET 	ticketing_status = '2'
+		WHERE 	srt_id = #{srtId}
+	</update>
+
+</mapper>

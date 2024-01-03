@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, target-densitydpi=medium-dpi">
+    <title>개인정보 제공 동의</title>
+    <link rel="stylesheet" href="terms.css">
+    <script>
+        function onClick() {
+            Native.dismiss()
+        }
+    </script>
+</head>
+<body>
+    <div class="bigTit">개인정보 제공 동의(필수)</div>
+    
+    <div class="title">제공받는 자</div>
+    <div class="desc"><strong>(주)오픈오브젝트</strong></div>
+
+    <div class="title">제공항목</div>
+    <div class="desc"><strong>이름, 전화번호, 비밀번호</strong></div>
+    
+    <div class="title">제공받는 자의 이용목적</div>
+    <div class="desc"><strong>기차 예매</strong></div>
+    
+    <div class="title">보관기간</div>
+    <div class="desc"><strong>개인정보의 이용목적 달성 시 즉시 파기</strong></div>
+    
+    
+    <div class="title">위 개인정보 제공 동의를 거부할 권리가 있으나, 거부 시 승차권을 예매할 수 없습니다.</div>
+    
+    <div class="footer">
+        <button class="btn" onclick="onClick()">확인</button>
+    </div>
+</body>
+</html>
